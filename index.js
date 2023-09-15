@@ -1,12 +1,23 @@
 
+const { map, tap, filter, startWith, scan, distinctUntilChanged } = rxjs.operators; // Import 'map' operator
+
+const DIRECTIONS = {
+  "ArrowRight": "RIGHT",
+  "ArrowLeft": "LEFT",
+  "ArrowUp": "UP",
+  "ArrowDown": "DOWN",
+}
+const SEGMENT_SIZE = 10;
+
+
 let canvas;
 let ctx;
 let DIRECTION;
 let SPEED = 1;
 
-const SEGMENT_SIZE = 10;
 let firstSegment = { x: 50, y: 50 };
 let snake = [firstSegment];
+
 
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -17,7 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const keydown$ = rxjs.fromEvent(window, 'keydown');
     const refresh$ = rxjs.fromEvent(document.getElementById('refresh'), 'click');
     refresh$.subscribe(e => refreshGame());
-    keydown$.subscribe(e => captureKeys(e))
+    keydown$.pipe(
+      map((event) => DIRECTIONS[event.key]),
+      filter(direction => !!direction),
+      // startWith("RIGHT"),
+      tap(direction => DIRECTION = direction),
+      tap(dir => console.log(dir)),
+      scan(nextDirection),
+      distinctUntilChanged()).subscribe();
 
     main();
 
@@ -27,30 +45,17 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+
+function nextDirection(a) {
+  console.log(a)
+}
+
 function refreshGame() {
   DIRECTION = undefined;
   firstSegment = { x: 50, y: 50 };
   snake = [firstSegment];
   main();
 }
-
-function captureKeys(e) {
-  console.log(e)
-  console.log(e.key)
-  if (e.key === 'ArrowRight') {
-    DIRECTION = 'RIGHT'
-  }
-  if (e.key === 'ArrowLeft') {
-    DIRECTION = 'LEFT'
-  }
-  if (e.key === 'ArrowUp') {
-    DIRECTION = 'UP'
-  }
-  if (e.key === 'ArrowDown') {
-    DIRECTION = 'DOWN'
-  }
-}
-
 
 function main() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
