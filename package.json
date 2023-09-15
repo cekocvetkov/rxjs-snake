@@ -1,0 +1,31 @@
+{
+	"name": "rxjs-snake",
+	"version": "1.0.0",
+	"description": "A simple project that implements the snake game with the help of rxjs. I used this as rxjs training.",
+	"scripts": {
+		"build": "webpack",
+		"build:watch": "webpack --watch"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cekocvetkov/rxjs-snake.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/cekocvetkov/rxjs-snake/issues"
+	},
+	"homepage": "https://github.com/cekocvetkov/rxjs-snake#readme",
+	"devDependencies": {
+		"@types/rx": "^4.1.2",
+		"css-loader": "^6.8.1",
+		"style-loader": "^3.3.3",
+		"ts-loader": "^9.4.4",
+		"typescript": "^5.2.2",
+		"webpack": "^5.88.2",
+		"webpack-cli": "^5.1.4"
+	},
+	"dependencies": {
+		"rxjs": "^7.8.1"
+	}
+}
